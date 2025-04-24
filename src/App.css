@@ -8,17 +8,24 @@
 body {
   background-color: #032347; /* Azul suave, mais clean */
   font-family: 'Roboto', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 20px; /* Para evitar que a tela encoste nas bordas */
+  color: #ffffff; /* Texto em branco para boa visibilidade no fundo azul */
 }
 
 /* App Container */
 .App {
   max-width: 800px;
+  width: 100%;
   margin: 0 auto;
   padding: 50px 20px;
   text-align: center;
   background-color: #ffffff; /* Cor de fundo do conteúdo */
   border-radius: 15px;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); /* Sombra mais sutil */
   overflow: hidden;
 }
 
