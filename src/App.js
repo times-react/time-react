@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -10,6 +10,19 @@ function App() {
     estadio: '',
   });
   const [editandoId, setEditandoId] = useState(null);
+
+  // Carregar os times do localStorage ao inicializar o componente
+  useEffect(() => {
+    const timesSalvos = JSON.parse(localStorage.getItem('times')) || [];
+    setTimes(timesSalvos);
+  }, []);
+
+  // Sempre que a lista de times for alterada, atualize o localStorage
+  useEffect(() => {
+    if (times.length > 0) {
+      localStorage.setItem('times', JSON.stringify(times));
+    }
+  }, [times]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -42,6 +55,7 @@ function App() {
         setTimes([...times, { ...form, id: Date.now() }]);
       }
 
+      // Limpar o formulário após envio
       setForm({ nome: '', tecnico: '', logo: '', estadio: '' });
     }
   };
@@ -65,11 +79,28 @@ function App() {
       <h1>{editandoId ? 'Editar Time' : 'Cadastro de Times'}</h1>
 
       <form onSubmit={handleSubmit}>
-        <input name="nome" placeholder="Nome do Time" value={form.nome} onChange={handleChange} />
-        <input name="tecnico" placeholder="Técnico" value={form.tecnico} onChange={handleChange} />
-        <input name="estadio" placeholder="Estádio" value={form.estadio} onChange={handleChange} />
+        <input
+          name="nome"
+          placeholder="Nome do Time"
+          value={form.nome}
+          onChange={handleChange}
+        />
+        <input
+          name="tecnico"
+          placeholder="Técnico"
+          value={form.tecnico}
+          onChange={handleChange}
+        />
+        <input
+          name="estadio"
+          placeholder="Estádio"
+          value={form.estadio}
+          onChange={handleChange}
+        />
         <input type="file" accept="image/*" onChange={handleImageChange} />
-        <button type="submit">{editandoId ? 'Salvar Alterações' : 'Adicionar Time'}</button>
+        <button type="submit">
+          {editandoId ? 'Salvar Alterações' : 'Adicionar Time'}
+        </button>
       </form>
 
       <hr />
@@ -79,15 +110,18 @@ function App() {
           <div key={time.id} className="time-card">
             {time.logo && <img src={time.logo} alt={time.nome} width="100" />}
             <h2>{time.nome}</h2>
-            <p><strong>Técnico:</strong> {time.tecnico}</p>
-            <p><strong>Estádio:</strong> {time.estadio}</p>
+            <p>
+              <strong>Técnico:</strong> {time.tecnico}
+            </p>
+            <p>
+              <strong>Estádio:</strong> {time.estadio}
+            </p>
             <button onClick={() => handleEdit(time)}>Editar</button>
             <button onClick={() => handleDelete(time.id)}>Excluir</button>
           </div>
         ))}
       </div>
     </div>
-    
   );
 }
 
