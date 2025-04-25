@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const TimeCard = styled.div`
-  background-color: ${({ theme }) => theme.colors.cardBackground};
+  background-color: #f7f7f7;
   border: 1px solid ${({ theme }) => theme.colors.cardBorder};
   width: 280px;
   padding: 25px;
@@ -42,7 +42,7 @@ export const TimeCardTitle = styled.h2`
 
 export const TimeCardDetails = styled.p`
   font-size: 1rem;
-  color: ${({ theme }) => theme.colors.textSecondary};
+  color: #000;
   margin: 5px 0;
 
   @media (max-width: 768px) {
@@ -52,12 +52,13 @@ export const TimeCardDetails = styled.p`
 
 export const Button = styled.button`
   background-color: ${({ theme }) => theme.colors.secondary};
-  color: white;
-  padding: 12px 25px;
+  color: #fff;
+  padding: 8px 20px;
   border: none;
   margin-top: 20px;
   border-radius: ${({ theme }) => theme.borderRadius};
   cursor: pointer;
+  margin-right: 18px;
   font-size: 1.1rem;
   transition: all 0.3s ease;
 

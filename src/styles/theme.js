@@ -1,13 +1,13 @@
 export const theme = {
   colors: {
-    primary: '#4A90E2',
-    secondary: '#50E3C2',
+    primary: '#000',
+    secondary: '#000',
     background: '#f7f7f7',
-    cardBackground: '#ffffff',
+    cardBackground: '#ff0000',
     cardBorder: '#D0D9E1',
-    textPrimary: '#333333',
-    textSecondary: '#888888',
+    textPrimary: '#000',
+    textSecondary: '#f7f7f7',
   },
-  boxShadow: '0 12px 20px rgba(0, 0, 0, 0.1)',
+  boxShadow: '0 12px 20px rgba(0, 0, 0, 0.5)',
   borderRadius: '12px',
 };

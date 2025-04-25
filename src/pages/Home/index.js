@@ -7,6 +7,7 @@ function Home() {
   const [times, setTimes] = useState([]);
   const [form, setForm] = useState({ nome: '', tecnico: '', logo: '', estadio: '' });
   const [editandoId, setEditandoId] = useState(null);
+  const [mensagem, setMensagem] = useState('');
 
   useEffect(() => {
     const timesSalvos = JSON.parse(localStorage.getItem('times')) || [];
@@ -18,6 +19,13 @@ function Home() {
       localStorage.setItem('times', JSON.stringify(times));
     }
   }, [times]);
+
+  const exibirMensagem = (texto) => {
+    setMensagem(texto);
+    setTimeout(() => {
+      setMensagem('');
+    }, 3000);
+  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -43,8 +51,10 @@ function Home() {
         );
         setTimes(timesAtualizados);
         setEditandoId(null);
+        exibirMensagem('Time editado com sucesso!');
       } else {
         setTimes([...times, { ...form, id: Date.now() }]);
+        exibirMensagem('Time adicionado com sucesso!');
       }
       setForm({ nome: '', tecnico: '', logo: '', estadio: '' });
     }
@@ -52,6 +62,7 @@ function Home() {
 
   const handleDelete = (id) => {
     setTimes(times.filter((time) => time.id !== id));
+    exibirMensagem('Time excluído com sucesso!');
   };
 
   const handleEdit = (time) => {
@@ -67,16 +78,35 @@ function Home() {
   return (
     <AppContainer>
       <Title>{editandoId ? 'Editar Time' : 'Cadastro de Times'}</Title>
-      <FormComponent 
-        form={form} 
-        onChange={handleChange} 
-        onSubmit={handleSubmit} 
-        onFileChange={handleImageChange} 
-        editandoId={editandoId} 
+
+      {mensagem && (
+        <div style={{
+          backgroundColor: '#fef3c7',
+          color: '#92400e',
+          padding: '12px',
+          borderRadius: '8px',
+          marginBottom: '20px',
+          fontWeight: 'bold',
+        }}>
+          {mensagem}
+        </div>
+      )}
+
+      <FormComponent
+        form={form}
+        onChange={handleChange}
+        onSubmit={handleSubmit}
+        onFileChange={handleImageChange}
+        editandoId={editandoId}
       />
       <TimeListContainer>
         {times.map((time) => (
-          <TimeCardComponent key={time.id} time={time} onEdit={handleEdit} onDelete={handleDelete} />
+          <TimeCardComponent
+            key={time.id}
+            time={time}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
         ))}
       </TimeListContainer>
     </AppContainer>
