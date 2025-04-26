@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import api from '../../services/api';
 import FormComponent from '../../components/Form';
 import TimeCardComponent from '../../components/TimeCard';
 import { AppContainer, Title, TimeListContainer } from './styles';
@@ -8,61 +9,71 @@ function Home() {
   const [form, setForm] = useState({ nome: '', tecnico: '', logo: '', estadio: '' });
   const [editandoId, setEditandoId] = useState(null);
   const [mensagem, setMensagem] = useState('');
+  const [erro, setErro] = useState('');
 
   useEffect(() => {
-    const timesSalvos = JSON.parse(localStorage.getItem('times')) || [];
-    setTimes(timesSalvos);
+    fetchTimes();
   }, []);
 
-  useEffect(() => {
-    if (times.length > 0) {
-      localStorage.setItem('times', JSON.stringify(times));
+  const fetchTimes = async () => {
+    try {
+      const res = await api.get('/listar');
+      setTimes(res.data);
+    } catch (error) {
+      console.error('Erro ao buscar times:', error);
+      setErro('Erro ao carregar times. Tente novamente mais tarde.');
+      setTimeout(() => setErro(''), 4000);
     }
-  }, [times]);
+  };
 
   const exibirMensagem = (texto) => {
     setMensagem(texto);
-    setTimeout(() => {
-      setMensagem('');
-    }, 3000);
+    setTimeout(() => setMensagem(''), 4000);
   };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setForm((prevForm) => ({ ...prevForm, logo: reader.result }));
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (form.nome && form.tecnico && form.logo && form.estadio) {
+
+    if (!form.nome || !form.tecnico || !form.estadio || !form.logo) {
+      setErro('Por favor, preencha todos os campos.');
+      setTimeout(() => setErro(''), 4000);
+      return;
+    }
+
+    try {
       if (editandoId) {
-        const timesAtualizados = times.map((time) =>
-          time.id === editandoId ? { ...form, id: editandoId } : time
-        );
-        setTimes(timesAtualizados);
-        setEditandoId(null);
+        await api.put(`/${editandoId}`, form);
         exibirMensagem('Time editado com sucesso!');
+        setEditandoId(null);
       } else {
-        setTimes([...times, { ...form, id: Date.now() }]);
+        await api.post('/criar', form);
         exibirMensagem('Time adicionado com sucesso!');
       }
+
+      // Atualizar a lista após adicionar ou editar
+      fetchTimes();
       setForm({ nome: '', tecnico: '', logo: '', estadio: '' });
+    } catch (error) {
+      console.error('Erro ao salvar time:', error);
+      setErro('Erro ao salvar time. Tente novamente.');
+      setTimeout(() => setErro(''), 4000);
     }
   };
 
-  const handleDelete = (id) => {
-    setTimes(times.filter((time) => time.id !== id));
-    exibirMensagem('Time excluído com sucesso!');
+  const handleDelete = async (id) => {
+    try {
+      await api.delete(`/${id}`);
+      exibirMensagem('Time excluído com sucesso!');
+      fetchTimes();
+    } catch (error) {
+      console.error('Erro ao excluir time:', error);
+      setErro('Erro ao excluir time. Tente novamente.');
+      setTimeout(() => setErro(''), 4000);
+    }
   };
 
   const handleEdit = (time) => {
@@ -81,14 +92,29 @@ function Home() {
 
       {mensagem && (
         <div style={{
-          backgroundColor: '#fef3c7',
-          color: '#92400e',
+          backgroundColor: '#d1fae5',
+          color: '#065f46',
           padding: '12px',
           borderRadius: '8px',
           marginBottom: '20px',
           fontWeight: 'bold',
+          textAlign: 'center',
         }}>
           {mensagem}
+        </div>
+      )}
+
+      {erro && (
+        <div style={{
+          backgroundColor: '#fee2e2',
+          color: '#991b1b',
+          padding: '12px',
+          borderRadius: '8px',
+          marginBottom: '20px',
+          fontWeight: 'bold',
+          textAlign: 'center',
+        }}>
+          {erro}
         </div>
       )}
 
@@ -96,9 +122,9 @@ function Home() {
         form={form}
         onChange={handleChange}
         onSubmit={handleSubmit}
-        onFileChange={handleImageChange}
         editandoId={editandoId}
       />
+
       <TimeListContainer>
         {times.map((time) => (
           <TimeCardComponent

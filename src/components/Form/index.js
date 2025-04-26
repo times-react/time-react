@@ -1,8 +1,7 @@
-
 import React from 'react';
 import { Form, Input, Button } from './styles';
 
-const FormComponent = ({ form, onChange, onSubmit, onFileChange, editandoId }) => {
+const FormComponent = ({ form, onChange, onSubmit, editandoId }) => {
   return (
     <Form onSubmit={onSubmit}>
       <Input
@@ -23,7 +22,13 @@ const FormComponent = ({ form, onChange, onSubmit, onFileChange, editandoId }) =
         value={form.estadio}
         onChange={onChange}
       />
-      <Input type="file" accept="image/*" onChange={onFileChange} />
+      {/* Apenas campo de URL de imagem */}
+      <Input
+        name="logo"
+        placeholder="URL da Imagem do Time"
+        value={form.logo}
+        onChange={onChange}
+      />
       <Button type="submit">
         {editandoId ? 'Salvar Alterações' : 'Adicionar Time'}
       </Button>
