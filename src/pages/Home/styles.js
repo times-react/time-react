@@ -16,7 +16,7 @@ export const AppContainer = styled.div`
 `;
 
 export const Title = styled.h1`
-  color: ${({ theme }) => theme.colors.primary};
+  color: #fff;
   font-size: 2.5rem;
   font-weight: 600;
   margin-bottom: 30px;
