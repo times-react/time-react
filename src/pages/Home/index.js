@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import api from '../../services/api';
-import FormComponent from '../../components/Form';
-import TimeCardComponent from '../../components/TimeCard';
+import FormComponent from '../../components/Form/index';
+import TimeCardComponent from '../../components/TimeCard/index';
 import { AppContainer, Title, TimeListContainer } from './styles';
 
 function Home() {
@@ -11,20 +10,18 @@ function Home() {
   const [mensagem, setMensagem] = useState('');
   const [erro, setErro] = useState('');
 
+  // Carregar dados do localStorage ao abrir o app
   useEffect(() => {
-    fetchTimes();
+    const dadosSalvos = localStorage.getItem('times');
+    if (dadosSalvos) {
+      setTimes(JSON.parse(dadosSalvos));
+    }
   }, []);
 
-  const fetchTimes = async () => {
-    try {
-      const res = await api.get('/listar');
-      setTimes(res.data);
-    } catch (error) {
-      console.error('Erro ao buscar times:', error);
-      setErro('Erro ao carregar times. Tente novamente mais tarde.');
-      setTimeout(() => setErro(''), 4000);
-    }
-  };
+  // Atualizar localStorage sempre que a lista mudar
+  useEffect(() => {
+    localStorage.setItem('times', JSON.stringify(times));
+  }, [times]);
 
   const exibirMensagem = (texto) => {
     setMensagem(texto);
@@ -35,7 +32,7 @@ function Home() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!form.nome || !form.tecnico || !form.estadio || !form.logo) {
@@ -44,36 +41,26 @@ function Home() {
       return;
     }
 
-    try {
-      if (editandoId) {
-        await api.put(`/${editandoId}`, form);
-        exibirMensagem('Time editado com sucesso!');
-        setEditandoId(null);
-      } else {
-        await api.post('/criar', form);
-        exibirMensagem('Time adicionado com sucesso!');
-      }
-
-      // Atualizar a lista após adicionar ou editar
-      fetchTimes();
-      setForm({ nome: '', tecnico: '', logo: '', estadio: '' });
-    } catch (error) {
-      console.error('Erro ao salvar time:', error);
-      setErro('Erro ao salvar time. Tente novamente.');
-      setTimeout(() => setErro(''), 4000);
+    if (editandoId) {
+      const listaAtualizada = times.map((time) =>
+        time.id === editandoId ? { ...form, id: editandoId } : time
+      );
+      setTimes(listaAtualizada);
+      exibirMensagem('Time editado com sucesso!');
+      setEditandoId(null);
+    } else {
+      const novoTime = { ...form, id: Date.now() };
+      setTimes([...times, novoTime]);
+      exibirMensagem('Time adicionado com sucesso!');
     }
+
+    setForm({ nome: '', tecnico: '', logo: '', estadio: '' });
   };
 
-  const handleDelete = async (id) => {
-    try {
-      await api.delete(`/${id}`);
-      exibirMensagem('Time excluído com sucesso!');
-      fetchTimes();
-    } catch (error) {
-      console.error('Erro ao excluir time:', error);
-      setErro('Erro ao excluir time. Tente novamente.');
-      setTimeout(() => setErro(''), 4000);
-    }
+  const handleDelete = (id) => {
+    const novaLista = times.filter((time) => time.id !== id);
+    setTimes(novaLista);
+    exibirMensagem('Time excluído com sucesso!');
   };
 
   const handleEdit = (time) => {
