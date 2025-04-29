@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# Times React
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[![Status do Projeto](https://img.shields.io/badge/status-ativo-success.svg)](https://timesreact.netlify.app/)
+[![Linguagem](https://img.shields.io/badge/linguagem-React-blueviolet.svg)](https://react.dev/)
 
-## Available Scripts
+> Um CRUD simples e funcional para gerenciar times diretamente no seu navegador.
 
-In the project directory, you can run:
+## Índice
 
-### `npm start`
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Como Usar](#como-usar)
+- [Contribuições](#contribuições)
+- [Contato](#contato)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Sobre o Projeto
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Times React é uma aplicação web que oferece funcionalidades básicas de Create, Read, Update e Delete (CRUD) para gerenciar informações de times. Desenvolvido utilizando a biblioteca React, o projeto visa ser uma ferramenta simples e direta para organização de equipes.
 
-### `npm test`
+**Recursos Principais:**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+* **Listagem de Times:** Visualize todos os times cadastrados de forma clara.
+* **Criação de Times:** Adicione novos times com informações relevantes.
+* **Edição de Times:** Modifique os detalhes de um time existente.
+* **Exclusão de Times:** Remova times que não são mais necessários.
 
-### `npm run build`
+## Como Usar
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Utilizar o Times React é muito fácil, pois ele está hospedado e pronto para uso diretamente no seu navegador:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1.  Acesse o site através do seguinte link: https://timesreact.netlify.app
+2.  Explore as funcionalidades de listagem, criação, edição e exclusão de times através da interface intuitiva.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Não é necessária nenhuma instalação ou configuração adicional!
 
-### `npm run eject`
+## Contribuições
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Se você tiver ideias para melhorar o Times React, sugestões de novas funcionalidades ou encontrar algum bug, sinta-se à vontade para contribuir com o projeto. Você pode:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+* Abrir uma **Issue** relatando o bug ou sua sugestão.
+* Enviar um **Pull Request** com suas modificações.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Contato
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Se você tiver alguma dúvida ou sugestão, pode entrar em contato através do seguinte e-mail:
 
-## Learn More
+osdrakedosenai@gmail.com
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Obrigado.
